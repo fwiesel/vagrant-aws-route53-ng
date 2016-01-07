@@ -3,13 +3,12 @@ require 'vagrant'
 module VagrantPlugins
   module Route53NG
     class Plugin < Vagrant.plugin('2')
-      name 'Route53NG'
+      name 'AWS - Route 53 support'
 
       description <<-DESC
       DESC
 
       config :route53 do
-        require 'pry'; binding.pry
         require_relative './config'
         Config
       end

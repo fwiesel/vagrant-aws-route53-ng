@@ -24,7 +24,7 @@ GIT
 PATH
   remote: .
   specs:
-    vagrant-aws-route53-ng (1.0.0)
+    vagrant-aws-route53-ng (1.0.2.pre3)
       aws-sdk-v1
 
 GEM
