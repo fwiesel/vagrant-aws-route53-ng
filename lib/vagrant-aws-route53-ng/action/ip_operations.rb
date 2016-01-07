@@ -27,14 +27,17 @@ module VagrantPlugins
           instance = ec2.instances[options[:instance_id]]
 
           ip_address =
-            case options[:ip_type]
-              when :public
-                instance.public_ip_address
-              when :private
-                instance.private_ip_address
-              else
-                raise Vagrant::Errors::VagrantError, "unrecognized ip_type for config.route53.ip_type: #{options[:ip_type]}"
-            end
+            options[:ip] ||
+              case options[:ip_type]
+                when :public
+                  instance.public_ip_address
+                when :private
+                  instance.private_ip_address
+                else
+                  nil
+              end
+
+          raise "ip and ip_type are both nil - should never happen?" unless ip_address
 
           record_sets = ::AWS::Route53::HostedZone.new(options[:hosted_zone_id]).rrsets
           record_set  = record_sets[*options[:record_set]]

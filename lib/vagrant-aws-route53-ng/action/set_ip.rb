@@ -17,12 +17,13 @@ module VagrantPlugins
                record_set.eql?(::Vagrant::Plugin::V2::Config::UNSET_VALUE)
 
           set(
-            access_key_id:     access_key_id,
-            secret_access_key: secret_access_key,
-            region:            region,
-            instance_id:       instance_id,
-            hosted_zone_id:    hosted_zone_id,
-            record_set:        record_set,
+            access_key_id:      access_key_id,
+            secret_access_key:  secret_access_key,
+            region:             region,
+            instance_id:        instance_id,
+            hosted_zone_id:     hosted_zone_id,
+            record_set:         record_set,
+            ip_type:            ip_type
           ) do |instance_id, ip, record_set|
             environment[:ui].info("#{instance_id}'s #{ip} has been assigned to #{record_set[0]}[#{record_set[1]}]")
           end
