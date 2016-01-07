@@ -33,3 +33,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 end
 ```
+
+## Thanks To ##
+This fork of `vagrant-aws-route53-ng` was built as part of a project at [DraftKings](https://draftkings.com). They're always hiring for quality developers in the Boston region; if you're looking for a new gig, feel free to [contact me](mailto:ed+draftkings@edboxes.com) and I'll happily forward you along.
+
+`vagrant-aws-route53` was originally developed by Naohiro Oogatta, and approximately 99.875% of the credit for this gizmo goes to him.
