@@ -13,15 +13,13 @@ module VagrantPlugins
         @ip_type        = UNSET_VALUE
       end
 
-      def finalize!
-        @widgets = 0 if @widgets == UNSET_VALUE
-      end
-
       def validate(machine)
         errors = _detected_errors
 
-        errors << "config.route53.ip_type must be :public or :private." \
-          unless [ :public, :private ].include?(@ip_type)
+        if @hosted_zone_id != UNSET_VALUE && @record_set != UNSET_VALUE
+          errors << "config.route53.ip_type must be :public or :private" \
+            unless [ :public, :private ].include?(@ip_type)
+        end
 
         { 'Route53NG' => errors }
       end

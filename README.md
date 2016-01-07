@@ -28,7 +28,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     override.route53.hosted_zone_id = 'Z1JUXXXXXXXXXX'
     override.route53.record_set     = %w(test.oogatta.com. A)
-    # Defaults to :public; use :private for internal VPC addresses
     override.route53.ip_type        = :public 
   end
 end
