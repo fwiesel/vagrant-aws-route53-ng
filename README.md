@@ -1,50 +1,35 @@
-vagrant-aws-route53
-===============
+vagrant-aws-route53-ng
+======================
 
-A Vagrant plugin assigns the public IP of the instance which vagrant-aws provider created to a specific Route 53 record set. 
+This Vagrant plugin (forked from Naohiro Oogatta's [vagrant-aws-route53](https://github.com/oogatta/vagrant-aws-route53)) assigns an IP address (either public or private) of a virtual machine created via the `vagrant-aws` provider to a _pre-created_ Route 53 record set. When the instance is created or started from a stopped state, its IP--its public IP by default, unless you set `config.route53.ip_type = :private`--will be applied to the record set's `A` record. When the instance is halted or destroyed, `0.0.0.0` will be applied to the record set.
 
-### Assigns the IP when
-
-* initial ```vagrant up```
-* ```vagrant up``` the halted instance. 
-
-### Assigns 0.0.0.0 when
-
-* ```vagrant halt```
-* ```vagrant destroy```
-
-### does not
-
-* creates another hosted zone or record set.
-* destroys hosted zone or record set.
-
-## Prerequisite
+## Prerequisite ##
 
 * vagrant-aws
 
-## Install
+## How to Install ##
 
 ```zsh
-$ vagrant install vagrant-aws-route53
+$ vagrant plugin install vagrant-aws-route53-ng
 ```
 
-## Config
+## Configuration Example ##
 
 ```ruby
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box       = 'dummy'
-  config.ssh.username = 'oogatta'
 
   config.vm.provider :aws do |aws, override|
-    aws.ami                       = 'ami'
-    aws.access_key_id             = 'key_id'
-    aws.secret_access_key         = 'secret_key'
-    aws.region                    = 'ap-northeast-1'
+    aws.ami                       = 'ami-AABBCCDD'
+    aws.access_key_id             = ENV['AWS_ACCESS_KEY']
+    aws.secret_access_key         = ENV['AWS_SECRET_KEY']
+    aws.region                    = 'us-east-1'
     aws.instance_type             = 't2.medium'
 
     override.route53.hosted_zone_id = 'Z1JUXXXXXXXXXX'
     override.route53.record_set     = %w(test.oogatta.com. A)
+    # Defaults to :public; use :private for internal VPC addresses
+    override.route53.ip_type        = :public 
   end
-
 end
 ```
