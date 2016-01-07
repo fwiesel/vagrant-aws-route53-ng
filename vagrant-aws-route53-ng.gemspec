@@ -1,5 +1,5 @@
 $:.unshift File.expand_path('../lib', __FILE__)
-require 'vagrant-aws-route53/version'
+require 'vagrant-aws-route53-ng/version'
 
 Gem::Specification.new do |s|
   s.name          = 'vagrant-aws-route53-ng'

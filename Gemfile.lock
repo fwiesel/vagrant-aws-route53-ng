@@ -195,6 +195,3 @@ DEPENDENCIES
   vagrant!
   vagrant-aws (= 0.6.0)
   vagrant-aws-route53-ng!
-
-BUNDLED WITH
-   1.10.5

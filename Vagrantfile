@@ -20,6 +20,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     override.ssh.private_key_path   = "#{ENV['EC2_PRIVATE_KEY_PATH']}"
     override.route53.hosted_zone_id = "#{ENV['ROUTE53_HOSTED_ZONE_ID']}"
     override.route53.record_set     = ["#{ENV['ROUTE53_DOMAIN']}", 'A']
+    override.route53.ip_type        = :public
 
     override.ssh.insert_key = false
   end
