@@ -1,7 +1,7 @@
 require 'aws-sdk-v1'
 
 module VagrantPlugins
-  module AwsRoute53
+  module Route53NG
     module Action
       class IpOperations
         private
@@ -15,23 +15,34 @@ module VagrantPlugins
           instance_id       = environment[:machine].id
           hosted_zone_id    = config.route53.hosted_zone_id
           record_set        = config.route53.record_set
+          ip_type           = config.route53.ip_type
 
-          return access_key_id, hosted_zone_id, instance_id, record_set, region, secret_access_key
+          return access_key_id, hosted_zone_id, instance_id, record_set, ip_type, region, secret_access_key
         end
 
         def set(options)
           ::AWS.config(access_key_id: options[:access_key_id], secret_access_key: options[:secret_access_key], region: options[:region])
 
           ec2 = ::AWS.ec2
-          public_ip = options[:public_ip] || ec2.instances[options[:instance_id]].public_ip_address
+          instance = ec2.instances[options[:instance_id]]
+
+          ip_address =
+            case options[:ip_type]
+              when :public
+                instance.public_ip_address
+              when :private
+                instance.private_ip_address
+              else
+                raise Vagrant::Errors::VagrantError, "unrecognized ip_type for config.route53.ip_type: #{options[:ip_type]}"
+            end
 
           record_sets = ::AWS::Route53::HostedZone.new(options[:hosted_zone_id]).rrsets
           record_set  = record_sets[*options[:record_set]]
-          record_set.resource_records = [{ value: public_ip }]
+          record_set.resource_records = [{ value: ip_address }]
           record_set.update
 
           if block_given?
-            yield options[:instance_id], public_ip, options[:record_set]
+            yield options[:instance_id], ip_address, options[:record_set]
           end
 
           nil

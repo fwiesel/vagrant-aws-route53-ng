@@ -1,6 +1,6 @@
 require 'vagrant-aws-route53/plugin'
 
 module VagrantPlugins
-  module AwsRoute53
+  module Route53NG
   end
 end

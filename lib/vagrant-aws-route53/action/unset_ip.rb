@@ -2,7 +2,7 @@ require 'aws-sdk-v1'
 require_relative 'ip_operations'
 
 module VagrantPlugins
-  module AwsRoute53
+  module Route53NG
     module Action
       class UnsetIp < IpOperations
         def initialize(app, environment)
