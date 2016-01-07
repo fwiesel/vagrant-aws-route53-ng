@@ -9,6 +9,7 @@ module VagrantPlugins
       DESC
 
       config :route53 do
+        require 'pry'; binding.pry
         require_relative './config'
         Config
       end
