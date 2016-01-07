@@ -10,7 +10,11 @@ module VagrantPlugins
       def initialize
         @hosted_zone_id = UNSET_VALUE
         @record_set     = UNSET_VALUE
-        @ip_type        = :public
+        @ip_type        = UNSET_VALUE
+      end
+
+      def finalize!
+        @widgets = 0 if @widgets == UNSET_VALUE
       end
 
       def validate(machine)
