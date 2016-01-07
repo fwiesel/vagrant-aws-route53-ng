@@ -16,7 +16,7 @@ module VagrantPlugins
       def validate(machine)
         errors = _detected_errors
 
-        raise "config.route53.ip_type must be :public or :private." \
+        errors << "config.route53.ip_type must be :public or :private." \
           unless [ :public, :private ].include?(@ip_type)
 
         { 'Route53NG' => errors }
