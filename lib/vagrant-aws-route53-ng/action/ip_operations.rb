@@ -39,10 +39,15 @@ module VagrantPlugins
 
           raise "ip and ip_type are both nil - should never happen?" unless ip_address
 
-          record_sets = ::AWS::Route53::HostedZone.new(options[:hosted_zone_id]).rrsets
-          record_set  = record_sets[*options[:record_set]]
-          record_set.resource_records = [{ value: ip_address }]
-          record_set.update
+          record_set = {
+               name: options[:record_set][0],
+               type: options[:record_set][1],
+               resource_records: [{value: ip_address }]
+          }
+          record_set[:set_identifier] = options[:record_set][2] if options[:record_set][2]
+
+          ::AWS.route_53.client.change_resource_record_sets(hosted_zone_id: options[:hosted_zone_id],
+                                                            change_batch: { changes: [{ action: 'UPSERT', resource_record_set: record_set}]})
 
           if block_given?
             yield options[:instance_id], ip_address, options[:record_set]
