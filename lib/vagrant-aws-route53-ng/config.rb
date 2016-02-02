@@ -7,6 +7,7 @@ module VagrantPlugins
       attr_accessor :record_set
       attr_accessor :ip_type
       attr_accessor :ip
+      attr_accessor :ttl
       attr_accessor :region
       attr_accessor :access_key_id
       attr_accessor :secret_access_key
@@ -19,6 +20,7 @@ module VagrantPlugins
         @region           = UNSET_VALUE
         @access_key_id    = UNSET_VALUE
         @secret_access_key= UNSET_VALUE
+        @ttl              = 60
       end
 
       def validate(machine)

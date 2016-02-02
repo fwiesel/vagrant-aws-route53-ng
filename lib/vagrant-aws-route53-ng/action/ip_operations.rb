@@ -18,6 +18,7 @@ module VagrantPlugins
               hosted_zone_id:     config.route53.hosted_zone_id,
               record_set:         config.route53.record_set,
               ip_type:            config.route53.ip_type,
+              ttl:                config.route53.ttl,
               ip:                 config.route53.ip.eql?(::Vagrant::Plugin::V2::Config::UNSET_VALUE) ? nil : config.route53.ip,
               environment:        environment
           }
@@ -49,6 +50,7 @@ module VagrantPlugins
                  resource_records: [{value: ip_address }]
             }
             record_set[:set_identifier] = options[:record_set][2] if options[:record_set][2]
+            record_set[:ttl] = options[:ttl] if options[:ttl]
 
             ::AWS.route_53.client.change_resource_record_sets(hosted_zone_id: options[:hosted_zone_id],
                                                               change_batch: { changes: [{ action: 'UPSERT', resource_record_set: record_set}]})
